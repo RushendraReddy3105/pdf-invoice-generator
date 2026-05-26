@@ -106,7 +106,9 @@ app.post('/generate-pdf', async (req, res) => {
     });
   }
 });
-
+app.get('/', (req, res) => {
+  res.send('Playwright PDF Service Running');
+});
 app.listen(3000, () => {
   console.log(
     'PDF service running'
