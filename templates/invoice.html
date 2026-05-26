@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1" />
+
+    <title>Medishift Payout Statement</title>
+
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        :root {
+            --page-w: 595px;
+            --page-h: 842px;
+            --margin: 40px;
+            --brand-blue: #15306f;
+            --soft-accent: rgba(0, 130, 255, 0.12);
+            --divider: #d9d9d9;
+            --row-bg: rgba(0, 0, 0, 0.01);
+            --footer-bg: rgba(0, 0, 0, 0.04);
+            --muted: #5a5a5a;
+
+            font-family:
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            background: #f0f2f6;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 100vh;
+
+            -webkit-print-color-adjust: exact;
+
+            print-color-adjust: exact;
+        }
+
+        .page {
+            width: var(--page-w);
+
+            height: var(--page-h);
+
+            background: white;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        /* ── HEADER ── */
+
+        .header-band {
+            position: absolute;
+
+            left: 0;
+
+            right: 0;
+
+            top: 0;
+
+            height: 130px;
+
+            background: #fff;
+
+            border-bottom: 2px solid #ececec;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 var(--margin);
+        }
+
+        .header-inner {
+            display: flex;
+
+            align-items: center;
+
+            width: 100%;
+
+            position: relative;
+        }
+
+        .bee-logo {
+            height: 90px;
+
+            width: auto;
+
+            object-fit: contain;
+
+            display: block;
+        }
+
+        .header-text-group {
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 5px;
+
+            position: absolute;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+        }
+
+        .brand-name {
+            font-size: 30px;
+
+            font-weight: 800;
+
+            line-height: 1;
+
+            letter-spacing: -0.5px;
+        }
+
+        .brand-name .medi {
+            color: #1a1a1a;
+        }
+
+        .brand-name .shift {
+            color: #f5a623;
+        }
+
+        .subtitle {
+            font-weight: 700;
+
+            font-size: 12.5px;
+
+            color: #111;
+
+            letter-spacing: 1.4px;
+
+            text-align: center;
+        }
+
+        /* ── WATERMARK ── */
+
+        .watermark {
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            transform: translate(-50%, -40%);
+
+            width: 350px;
+
+            opacity: 0.12;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+        /* ── CONTENT ── */
+
+        .content {
+            position: absolute;
+
+            top: 148px;
+
+            left: var(--margin);
+
+            right: var(--margin);
+
+            bottom: 56px;
+        }
+
+        .section {
+            margin-bottom: 4px;
+        }
+
+        .section-title {
+            color: var(--brand-blue);
+
+            font-weight: 700;
+
+            font-size: 11.5px;
+
+            letter-spacing: 0.8px;
+
+            margin-bottom: 10px;
+
+            text-transform: uppercase;
+        }
+
+        .divider {
+            height: 1px;
+
+            background: var(--divider);
+
+            margin: 10px 0 14px;
+        }
+
+        /* ── TABLES ── */
+
+        .kv-table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        .kv-table tr td {
+            padding: 3.5px 0;
+
+            font-size: 11px;
+
+            vertical-align: top;
+        }
+
+        .kv-table tr td:first-child {
+            width: 185px;
+
+            font-weight: 700;
+
+            color: #111;
+
+            padding-right: 10px;
+        }
+
+        .kv-table tr td:last-child {
+            color: #333;
+        }
+
+        /* ── SUMMARY ROWS ── */
+
+        .summary-row {
+            display: flex;
+
+            align-items: center;
+
+            height: 24px;
+        }
+
+        .summary-row:nth-child(even) {
+            background:
+                rgba(0, 50, 200, 0.03);
+        }
+
+        .summary-label {
+            flex: 1;
+
+            padding-left: 8px;
+
+            font-size: 11px;
+
+            color: #333;
+        }
+
+        .summary-amount {
+            width: 150px;
+
+            text-align: right;
+
+            padding-right: 8px;
+
+            font-weight: 700;
+
+            font-size: 11px;
+        }
+
+        /* ── NET BOX ── */
+
+        .net-box {
+            margin-top: 12px;
+
+            background: var(--soft-accent);
+
+            padding: 11px 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-radius: 5px;
+        }
+
+        .net-label {
+            font-weight: 700;
+
+            color: var(--brand-blue);
+
+            font-size: 13px;
+        }
+
+        .net-amount {
+            font-weight: 700;
+
+            color: var(--brand-blue);
+
+            font-size: 17px;
+        }
+
+        /* ── FOOTER ── */
+
+        .footer {
+            position: absolute;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            height: 56px;
+
+            background: var(--footer-bg);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- ── HEADER ── -->
+
+        <div class="header-band">
+
+            <div class="header-inner">
+
+                <img class="bee-logo"
+                    src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
+                    alt="Medishift bee">
+
+                <div class="header-text-group">
+
+                    <div class="brand-name">
+                        <span class="medi">medi</span>
+                        <span class="shift">shift</span>
+                    </div>
+
+                    <div class="subtitle">
+                        PHYSICIAN PAYOUT STATEMENT
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- WATERMARK -->
+
+        <img class="watermark"
+            src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
+            alt="Watermark">
+
+        <!-- ── BODY ── -->
+
+        <div class="content">
+
+            <!-- PAYMENT DETAILS -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Payment Details
+                </div>
+
+                <table class="kv-table">
+
+                    <tr>
+                        <td>UTR Number</td>
+                        <td>{{utrNumber}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Payment Date &amp; Time</td>
+                        <td>{{paymentDate}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Bank / UPI</td>
+                        <td>{{bankDetails}}</td>
+                    </tr>
+
+                </table>
+
+                <div class="divider"></div>
+
+            </div>
+
+            <!-- PHYSICIAN / SHIFT DETAILS -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Physician / Shift Details
+                </div>
+
+                <table class="kv-table">
+
+                    <tr>
+                        <td>Physician Name</td>
+                        <td>{{physicianName}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Shift ID</td>
+                        <td>{{shiftId}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Clinic Name</td>
+                        <td>{{clinicName}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Shift Timing</td>
+                        <td>{{shiftTiming}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Shift Date</td>
+                        <td>{{shiftDate}}</td>
+                    </tr>
+
+                </table>
+
+                <div class="divider"></div>
+
+            </div>
+
+            <!-- TRANSACTION SUMMARY -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Transaction Summary
+                </div>
+
+                <div>
+
+                    {{#each rows}}
+
+                    <div class="summary-row">
+
+                        <div class="summary-label">
+                            {{label}}
+                        </div>
+
+                        <div class="summary-amount">
+                            INR {{amount}}
+                        </div>
+
+                    </div>
+
+                    {{/each}}
+
+                </div>
+
+                <div class="net-box">
+
+                    <div class="net-label">
+                        NET AMOUNT CREDITED
+                    </div>
+
+                    <div class="net-amount">
+                        INR {{netAmount}}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+            Generated by Medishift Payments
+        </div>
+
+    </div>
+
+</body>
+
+</html>
