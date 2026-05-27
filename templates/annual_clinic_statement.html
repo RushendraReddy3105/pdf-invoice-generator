@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>Annual Hospital Statement</title>
+    <title>{{{reporttype}}} Clinic Statement</title>
 
     <style>
         @page {
@@ -398,7 +398,7 @@
                         alt="Medishift Logo">
 
                     <div class="subtitle">
-                        ANNUAL CLINIC STATEMENT
+                        {{{reporttype}}} CLINIC STATEMENT
                     </div>
 
                 </div>
@@ -447,12 +447,12 @@
                     <div class="details-col">
 
                         <div class="section-title">
-                            Hospital Details
+                            Clinic Details
                         </div>
 
                         <table class="kv-table">
                             <tr>
-                                <td>Hospital Name</td>
+                                <td>Clinic Name</td>
                                 <td><strong>{{clinicName}}</strong></td>
                             </tr>
                             <tr>
@@ -495,7 +495,7 @@
             <div class="section">
 
                 <div class="section-title">
-                    Annual Shift History
+                    {{{reporttype}}} Shift History
                 </div>
 
                 <table class="statement-table">
@@ -527,12 +527,12 @@
 
             </div>
 
-            <!-- ANNUAL SUMMARY TOTALS -->
+            <!-- ANNUAL / QUATERLY SUMMARY TOTALS -->
 
             <div class="section">
 
                 <div class="section-title">
-                    Annual Summary Totals
+                    {{{reporttype}}} Summary Totals
                 </div>
 
                 <div class="summary-grid">
