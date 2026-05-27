@@ -4,9 +4,6 @@
 <head>
     <meta charset="utf-8" />
 
-    <meta name="viewport"
-        content="width=device-width,initial-scale=1" />
-
     <title>Medishift Payout Statement</title>
 
     <style>
@@ -16,15 +13,22 @@
         }
 
         :root {
-            --page-w: 595px;
-            --page-h: 842px;
-            --margin: 40px;
             --brand-blue: #15306f;
-            --soft-accent: rgba(0, 130, 255, 0.12);
-            --divider: #d9d9d9;
-            --row-bg: rgba(0, 0, 0, 0.01);
-            --footer-bg: rgba(0, 0, 0, 0.04);
-            --muted: #5a5a5a;
+
+            --soft-accent:
+                rgba(21, 48, 111, 0.06);
+
+            --divider:
+                rgba(0, 0, 0, 0.06);
+
+            --footer-bg:
+                rgba(0, 0, 0, 0.015);
+
+            --muted: #6b7280;
+
+            --page-width: 210mm;
+
+            --horizontal-padding: 42px;
 
             font-family:
                 "Helvetica Neue",
@@ -36,63 +40,60 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
 
-            background: #f0f2f6;
+            background: white;
 
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            min-height: 100vh;
+            width: 100%;
 
             -webkit-print-color-adjust: exact;
-
             print-color-adjust: exact;
         }
 
-        .page {
-            width: var(--page-w);
+        body {
+            display: flex;
+            justify-content: center;
+        }
 
-            height: var(--page-h);
+        .page {
+            width: var(--page-width);
 
             background: white;
 
             position: relative;
 
             overflow: hidden;
-        }
-
-        /* ── HEADER ── */
-
-        .header-band {
-            position: absolute;
-
-            left: 0;
-
-            right: 0;
-
-            top: 0;
-
-            height: 130px;
-
-            background: #fff;
-
-            border-bottom: 2px solid #ececec;
 
             display: flex;
+            flex-direction: column;
 
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        .header-band {
+            height: 125px;
+
+            display: flex;
             align-items: center;
 
-            padding: 0 var(--margin);
+            padding:
+                0 var(--horizontal-padding);
+
+            border-bottom:
+                0.5px solid var(--divider);
+
+            position: relative;
+
+            flex-shrink: 0;
         }
 
         .header-inner {
             display: flex;
-
             align-items: center;
 
             width: 100%;
@@ -101,97 +102,86 @@
         }
 
         .bee-logo {
-            height: 90px;
-
+            height: 78px;
             width: auto;
 
             object-fit: contain;
-
-            display: block;
         }
 
         .header-text-group {
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            gap: 5px;
-
             position: absolute;
 
             left: 50%;
 
-            transform: translateX(-50%);
+            transform:
+                translateX(-50%);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: 6px;
         }
 
         .brand-name {
-            font-size: 30px;
+            height: 31px;
+            width: auto;
 
-            font-weight: 800;
-
-            line-height: 1;
-
-            letter-spacing: -0.5px;
-        }
-
-        .brand-name .medi {
-            color: #1a1a1a;
-        }
-
-        .brand-name .shift {
-            color: #f5a623;
+            object-fit: contain;
+            display: block;
         }
 
         .subtitle {
-            font-weight: 700;
+            font-weight: 600;
 
-            font-size: 12.5px;
+            font-size: 11.5px;
 
-            color: #111;
+            color: #374151;
 
-            letter-spacing: 1.4px;
+            letter-spacing: 1.8px;
 
             text-align: center;
         }
 
-        /* ── WATERMARK ── */
+        /* WATERMARK */
 
         .watermark {
             position: absolute;
 
             left: 50%;
+            top: 58%;
 
-            top: 50%;
+            transform:
+                translate(-50%, -50%);
 
-            transform: translate(-50%, -40%);
+            width: 360px;
 
-            width: 350px;
-
-            opacity: 0.12;
+            opacity: 0.04;
 
             pointer-events: none;
 
             z-index: 0;
         }
 
-        /* ── CONTENT ── */
+        /* CONTENT */
 
         .content {
-            position: absolute;
+            flex: 1;
 
-            top: 148px;
+            padding:
+                38px var(--horizontal-padding) 60px;
 
-            left: var(--margin);
+            position: relative;
 
-            right: var(--margin);
+            z-index: 1;
 
-            bottom: 56px;
+            line-height: 1.55;
         }
 
+        /* SECTIONS */
+
         .section {
-            margin-bottom: 4px;
+            margin-bottom: 30px;
         }
 
         .section-title {
@@ -199,24 +189,27 @@
 
             font-weight: 700;
 
-            font-size: 11.5px;
+            font-size: 11px;
 
-            letter-spacing: 0.8px;
+            letter-spacing: 1.1px;
 
-            margin-bottom: 10px;
+            margin-bottom: 14px;
 
             text-transform: uppercase;
         }
 
         .divider {
-            height: 1px;
+            height: 0.5px;
 
             background: var(--divider);
 
-            margin: 10px 0 14px;
+            opacity: 0.7;
+
+            margin:
+                18px 0 0;
         }
 
-        /* ── TABLES ── */
+        /* TABLE */
 
         .kv-table {
             width: 100%;
@@ -224,81 +217,87 @@
             border-collapse: collapse;
         }
 
-        .kv-table tr td {
-            padding: 3.5px 0;
+        .kv-table td {
+            padding: 6px 0;
 
-            font-size: 11px;
+            font-size: 12px;
 
             vertical-align: top;
         }
 
-        .kv-table tr td:first-child {
-            width: 185px;
+        .kv-table td:first-child {
+            width: 190px;
 
-            font-weight: 700;
+            font-weight: 600;
 
-            color: #111;
-
-            padding-right: 10px;
+            color: #4b5563;
         }
 
-        .kv-table tr td:last-child {
-            color: #333;
+        .kv-table td:last-child {
+            color: #111827;
+
+            font-weight: 500;
         }
 
-        /* ── SUMMARY ROWS ── */
+        /* SUMMARY */
+
+        .summary-container {
+            margin-top: 4px;
+        }
 
         .summary-row {
             display: flex;
-
             align-items: center;
 
-            height: 24px;
+            min-height: 40px;
+
+            border-radius: 8px;
+
+            padding:
+                0 10px;
         }
 
         .summary-row:nth-child(even) {
             background:
-                rgba(0, 50, 200, 0.03);
+                rgba(0, 0, 0, 0.015);
         }
 
         .summary-label {
             flex: 1;
 
-            padding-left: 8px;
+            font-size: 12px;
 
-            font-size: 11px;
-
-            color: #333;
+            color: #374151;
         }
 
         .summary-amount {
-            width: 150px;
+            width: 170px;
 
             text-align: right;
 
-            padding-right: 8px;
+            font-weight: 600;
 
-            font-weight: 700;
+            font-size: 12px;
 
-            font-size: 11px;
+            color: #111827;
         }
 
-        /* ── NET BOX ── */
+        /* NET BOX */
 
         .net-box {
-            margin-top: 12px;
+            margin-top: 28px;
 
-            background: var(--soft-accent);
+            background:
+                var(--soft-accent);
 
-            padding: 11px 14px;
+            border-radius: 14px;
+
+            padding:
+                18px 22px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
-            border-radius: 5px;
         }
 
         .net-label {
@@ -307,35 +306,28 @@
             color: var(--brand-blue);
 
             font-size: 13px;
+
+            letter-spacing: 0.3px;
         }
 
         .net-amount {
-            font-weight: 700;
+            font-weight: 800;
 
             color: var(--brand-blue);
 
-            font-size: 17px;
+            font-size: 24px;
         }
 
-        /* ── FOOTER ── */
+        /* FOOTER */
 
         .footer {
-            position: absolute;
+            height: 70px;
 
-            left: 0;
-
-            right: 0;
-
-            bottom: 0;
-
-            height: 56px;
-
-            background: var(--footer-bg);
+            background:
+                var(--footer-bg);
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
             color: var(--muted);
@@ -343,6 +335,8 @@
             font-size: 10px;
 
             letter-spacing: 0.3px;
+
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -351,22 +345,30 @@
 
     <div class="page">
 
-        <!-- ── HEADER ── -->
+        <!-- WATERMARK -->
+
+        <img
+            class="watermark"
+            src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
+            alt="Watermark">
+
+        <!-- HEADER -->
 
         <div class="header-band">
 
             <div class="header-inner">
 
-                <img class="bee-logo"
+                <img
+                    class="bee-logo"
                     src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
-                    alt="Medishift bee">
+                    alt="Medishift Logo">
 
                 <div class="header-text-group">
 
-                    <div class="brand-name">
-                        <span class="medi">medi</span>
-                        <span class="shift">shift</span>
-                    </div>
+                    <img
+                        class="brand-name"
+                        src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Text%20Logo%20PNG.png"
+                        alt="Medishift Logo">
 
                     <div class="subtitle">
                         PHYSICIAN PAYOUT STATEMENT
@@ -378,13 +380,7 @@
 
         </div>
 
-        <!-- WATERMARK -->
-
-        <img class="watermark"
-            src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
-            alt="Watermark">
-
-        <!-- ── BODY ── -->
+        <!-- CONTENT -->
 
         <div class="content">
 
@@ -419,7 +415,7 @@
 
             </div>
 
-            <!-- PHYSICIAN / SHIFT DETAILS -->
+            <!-- PHYSICIAN DETAILS -->
 
             <div class="section">
 
@@ -444,15 +440,10 @@
                         <td>{{clinicName}}</td>
                     </tr>
 
-                    <tr>
-                        <td>Shift Timing</td>
-                        <td>{{shiftTiming}}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Shift Date</td>
-                        <td>{{shiftDate}}</td>
-                    </tr>
+                   <tr>
+    <td>Shift Duration</td>
+    <td>{{shiftDuration}}</td>
+</tr>
 
                 </table>
 
@@ -468,7 +459,7 @@
                     Transaction Summary
                 </div>
 
-                <div>
+                <div class="summary-container">
 
                     {{#each rows}}
 

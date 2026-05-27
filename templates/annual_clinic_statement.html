@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Annual Hospital Statement</title>
+
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        :root {
+            --brand-blue: #15306f;
+
+            --soft-accent:
+                rgba(21, 48, 111, 0.06);
+
+            --divider:
+                rgba(0, 0, 0, 0.06);
+
+            --footer-bg:
+                rgba(0, 0, 0, 0.015);
+
+            --muted: #6b7280;
+
+            --page-width: 210mm;
+
+            --horizontal-padding: 42px;
+
+            font-family:
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            background: white;
+
+            width: 100%;
+
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            width: var(--page-width);
+
+            background: white;
+
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        .header-band {
+            height: 125px;
+
+            display: flex;
+            align-items: center;
+
+            padding:
+                0 var(--horizontal-padding);
+
+            border-bottom:
+                0.5px solid var(--divider);
+
+            position: relative;
+
+            flex-shrink: 0;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+
+            position: relative;
+        }
+
+        .bee-logo {
+            height: 78px;
+            width: auto;
+
+            object-fit: contain;
+        }
+
+        .header-text-group {
+            position: absolute;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: 6px;
+        }
+
+        .brand-name {
+            height: 31px;
+            width: auto;
+
+            object-fit: contain;
+            display: block;
+        }
+
+        .subtitle {
+            font-weight: 600;
+
+            font-size: 11.5px;
+
+            color: #374151;
+
+            letter-spacing: 1.8px;
+
+            text-align: center;
+        }
+
+        /* WATERMARK */
+
+        .watermark {
+            position: absolute;
+
+            left: 50%;
+            top: 58%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: 360px;
+
+            opacity: 0.04;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+        /* CONTENT */
+
+        .content {
+            flex: 1;
+
+            padding:
+                38px var(--horizontal-padding) 60px;
+
+            position: relative;
+
+            z-index: 1;
+
+            line-height: 1.55;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--brand-blue);
+
+            font-weight: 700;
+
+            font-size: 11px;
+
+            letter-spacing: 1.1px;
+
+            margin-bottom: 14px;
+
+            text-transform: uppercase;
+        }
+
+        .divider {
+            height: 0.5px;
+
+            background: var(--divider);
+
+            opacity: 0.7;
+
+            margin:
+                18px 0 0;
+        }
+
+        /* TABLE */
+
+        .kv-table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        .kv-table td {
+            padding: 6px 0;
+
+            font-size: 12px;
+
+            vertical-align: top;
+        }
+
+        .kv-table tr {
+            page-break-inside: avoid;
+        }
+
+        .kv-table td:first-child {
+            width: 130px;
+
+            font-weight: 600;
+
+            color: #4b5563;
+        }
+
+        .kv-table td:last-child {
+            color: #111827;
+
+            font-weight: 500;
+        }
+
+        /* DETAILS GRID */
+
+        .details-grid {
+            display: flex;
+            gap: 40px;
+            justify-content: space-between;
+
+            page-break-inside: avoid;
+        }
+
+        .details-col {
+            flex: 1;
+        }
+
+        /* STATEMENT TABLE */
+
+        .statement-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .statement-table th {
+            background: var(--brand-blue);
+            color: white;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 10px 8px;
+            text-align: left;
+            border: none;
+        }
+
+        .statement-table td {
+            padding: 10px 8px;
+            font-size: 11px;
+            color: #111827;
+            border-bottom: 0.5px solid var(--divider);
+        }
+
+        .statement-table tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.015);
+        }
+
+        .statement-table tr {
+            page-break-inside: avoid;
+        }
+
+        /* SUMMARY GRID */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+
+            page-break-inside: avoid;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            border: 0.5px solid var(--divider);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .summary-card.highlight {
+            background: var(--soft-accent);
+            border: 0.5px solid rgba(21, 48, 111, 0.15);
+        }
+
+        .summary-card .card-label {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .summary-card .card-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brand-blue);
+        }
+
+        /* ITC NOTICE */
+
+        .itc-notice-box {
+            margin-top: 20px;
+            background: rgba(21, 48, 111, 0.03);
+            border: 0.5px dashed rgba(21, 48, 111, 0.25);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 11px;
+            color: #1f2937;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            height: 70px;
+
+            background:
+                var(--footer-bg);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            letter-spacing: 0.3px;
+
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- WATERMARK -->
+
+        <img
+            class="watermark"
+            src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
+            alt="Watermark">
+
+        <!-- HEADER -->
+
+        <div class="header-band">
+
+            <div class="header-inner">
+
+                <img
+                    class="bee-logo"
+                    src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Logo%20PNG.png"
+                    alt="Medishift Logo">
+
+                <div class="header-text-group">
+
+                    <img
+                        class="brand-name"
+                        src="https://akuszrlsyhpdppvrlbjp.supabase.co/storage/v1/object/public/logos/Text%20Logo%20PNG.png"
+                        alt="Medishift Logo">
+
+                    <div class="subtitle">
+                        ANNUAL CLINIC STATEMENT
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <!-- DETAILS SECTION -->
+
+            <div class="section">
+
+                <div class="details-grid">
+
+                    <div class="details-col">
+
+                        <div class="section-title">
+                            MediShift Details
+                        </div>
+
+                        <table class="kv-table">
+                            <tr>
+                                <td>Company</td>
+                                <td><strong>MediShift Private Limited</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td>Palm Rivera, 7/1390 , Kochi, Gujarathy Road, Kerala, 682002</td>
+                            </tr>
+                            <tr>
+                                <td>GSTIN</td>
+                                <td>32AATCM6744R1ZI</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>office@medishift.in</td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    <div class="details-col">
+
+                        <div class="section-title">
+                            Hospital Details
+                        </div>
+
+                        <table class="kv-table">
+                            <tr>
+                                <td>Hospital Name</td>
+                                <td><strong>{{clinicName}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td>GSTIN</td>
+                                <td>{{clinicGstin}}</td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="divider"></div>
+
+            </div>
+
+            <!-- STATEMENT REFERENCE -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Statement Reference
+                </div>
+
+                <table class="kv-table" style="width: 100%;">
+                    <tr>
+                        <td style="width: 130px;">Statement Number</td>
+                        <td><strong>{{invoiceNumber}}</strong></td>
+                        <td style="width: 130px; font-weight: 600; color: #4b5563; padding-left: 40px;">Statement Period</td>
+                        <td>{{{statementperiod}}}</td>
+                    </tr>
+                </table>
+
+                <div class="divider"></div>
+
+            </div>
+
+            <!-- TRANSACTION TABLE -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Annual Shift History
+                </div>
+
+                <table class="statement-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Shift Date</th>
+                            <th>Shift ID</th>
+                            <th>Physician Name</th>
+                            <th>Total Paid</th>
+                            <th>UTR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each shifts}}
+                        <tr>
+                            <td>{{date}}</td>
+                            <td>{{shiftdate}}</td>
+                            <td>{{shiftid}}</td>
+                            <td>{{physicianname}}</td>
+                            <td>{{totalpaid}}</td>
+                            <td>{{utr}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+                <div class="divider"></div>
+
+            </div>
+
+            <!-- ANNUAL SUMMARY TOTALS -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Annual Summary Totals
+                </div>
+
+                <div class="summary-grid">
+
+                    <div class="summary-card">
+                        <div class="card-label">Total Platform Fees</div>
+                        <div class="card-value">₹ {{totalPlatformFees}}</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-label">CGST (9%)</div>
+                        <div class="card-value">₹ {{cgst}}</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-label">SGST (9%)</div>
+                        <div class="card-value">₹ {{sgst}}</div>
+                    </div>
+
+                    <div class="summary-card highlight">
+                        <div class="card-label">Total GST Paid</div>
+                        <div class="card-value">₹ {{totalGstPaid}}</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+            Generated by Medishift Payments
+        </div>
+
+    </div>
+
+</body>
+
+</html>

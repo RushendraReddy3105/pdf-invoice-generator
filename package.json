@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "handlebars": "^4.7.8",
-    "playwright-core": "1.60.0"
+    "playwright": "1.60.0",
+    "@supabase/supabase-js": "^2.43.4"
   }
 }
